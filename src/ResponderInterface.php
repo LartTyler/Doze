@@ -22,15 +22,17 @@
 		 *
 		 * @param string     $format  the response format (such as "json" or "xml")
 		 * @param mixed|null $data    the response data; if null, no response body should be set, and HTTP_NO_CONTENT
-		 *                            should be used as the response status (unless $status is explicitly set
+		 *                            should be used as the response status (unless $status is explicitly set)
 		 * @param int        $status  the HTTP status; if `null` is provided, the status should be inferred to be 200 OK
 		 *                            if $data is not null, or 204 NO CONTENT if it is
 		 * @param array      $headers an array of headers to send; this array should take precedence over any default
 		 *                            headers (such as Content-Type)
+		 * @param array      $context an array containing context options for serialization, in the format
+		 *                            "context-key" => "value"
 		 *
 		 * @return Response
 		 */
-		public function createResponse($format, $data = null, $status = null, array $headers = []);
+		public function createResponse($format, $data = null, $status = null, array $headers = [], array $context = []);
 
 		/**
 		 * Creates an error response.
@@ -41,15 +43,17 @@
 		 *                                   400 BAD REQUEST
 		 * @param array             $headers an array of headers to send; this array should take precedence over any
 		 *                                   default headers (such as Content-Type)
+		 * @param array             $context an array containing context options for serialization, in the format
+		 *                                   "context-key" => "value"
 		 *
 		 * @return Response
 		 */
-		public function createErrorResponse(ApiErrorInterface $error, $format, $status = null, array $headers = []);
+		public function createErrorResponse(ApiErrorInterface $error, $format, $status = null, array $headers = [], array $context = []);
 
 		/**
 		 * Creates an error response using AccessDeniedError.
 		 *
-		 * @param $format string the response format (such as "json" or "xml"
+		 * @param $format string the response format (such as "json" or "xml")
 		 *
 		 * @return Response
 		 * @see AccessDeniedError
@@ -59,7 +63,7 @@
 		/**
 		 * Creates an error response using NotFoundError.
 		 *
-		 * @param $format string the response format (such as "json" or "xml"
+		 * @param $format string the response format (such as "json" or "xml")
 		 *
 		 * @return Response
 		 * @see NotFoundError

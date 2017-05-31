@@ -15,9 +15,11 @@
 	 *    3. Iterables containing entities are also serialized in the same way as described in #2 for entities.
 	 *
 	 * @package DaybreakStudios\Doze\Serializer
-	 * @see EntityInterface
+	 * @see     EntityInterface
 	 */
 	class EntityNormalizer extends ObjectNormalizer {
+		const CONTEXT_FIELDS = 'doze.entity_fields';
+
 		/**
 		 * {@inheritdoc}
 		 */
@@ -40,15 +42,19 @@
 		 */
 		protected function getAttributeValue($object, $attribute, $format = null, array $context = []) {
 			$value = parent::getAttributeValue($object, $attribute, $format, $context);
+
 			if ($value instanceof EntityInterface)
 				return $value->getId();
 			else if (CollectionUtil::isIterable($value)) {
 				$coll = [];
+
 				foreach ($value as $k => $v) {
 					if ($v instanceof EntityInterface)
 						$v = $v->getId();
+
 					$coll[$k] = $v;
 				}
+
 				$value = $coll;
 			}
 

@@ -31,11 +31,11 @@
 		/**
 		 * {@inheritdoc}
 		 */
-		public function createResponse($format, $data = null, $status = null, array $headers = []) {
+		public function createResponse($format, $data = null, $status = null, array $headers = [], array $context = []) {
 			if ($data === null && $status === null)
 				$status = Response::HTTP_NO_CONTENT;
 			else if ($data !== null)
-				$data = $this->serializer->serialize($data, $format);
+				$data = $this->serializer->serialize($data, $format, $context);
 
 			return new Response($data, $status ?: Response::HTTP_OK, $headers + [
 					'Content-Type' => 'application/' . $format,
@@ -45,7 +45,13 @@
 		/**
 		 * {@inheritdoc}
 		 */
-		public function createErrorResponse(ApiErrorInterface $error, $format, $status = null, array $headers = []) {
+		public function createErrorResponse(
+			ApiErrorInterface $error,
+			$format,
+			$status = null,
+			array $headers = [],
+			array $context = []
+		) {
 			if ($status === null)
 				$status = $error->getHttpStatus() ?: Response::HTTP_BAD_REQUEST;
 
@@ -54,7 +60,7 @@
 					'code' => $error->getCode(),
 					'message' => $error->getMessage(),
 				],
-			], $status, $headers);
+			], $status, $headers, $context);
 		}
 
 		/**
