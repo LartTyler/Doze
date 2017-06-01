@@ -20,7 +20,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"DaybreakStuios\\Doze\\": "src/"
+			"DaybreakStudios\\Doze\\": "src/"
 		}
 	}
 }
