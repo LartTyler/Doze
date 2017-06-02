@@ -34,6 +34,21 @@
 			$this->length = strlen($selector);
 		}
 
+		/**
+		 * @return array
+		 */
+		public function all() {
+			$all = [];
+
+			while ($next = $this->next())
+				$all = array_merge_recursive($all, $next);
+
+			return $all;
+		}
+
+		/**
+		 * @return array|null
+		 */
 		public function next() {
 			if ($this->pos >= $this->length - 1)
 				return null;
@@ -42,15 +57,22 @@
 		}
 
 		/**
+		 * @return void
+		 */
+		public function reset() {
+			$this->pos = 0;
+		}
+
+		/**
 		 * @param $part
 		 *
-		 * @return FieldSelector
+		 * @return array
 		 */
 		protected function parse($part) {
 			$subPos = strpos($part, self::TOKEN_SUBFIELD_OPEN);
 
 			if ($subPos === false)
-				return new FieldSelector('', [$part]);
+				return [$part => true];
 
 			$key = substr($part, 0, $subPos++);
 			$fields = [];
@@ -59,20 +81,26 @@
 			$subLength = strlen($subSelector);
 			$subPos = 0;
 
-			while ($fragment = $this->getNextFragment($subSelector, $subLength, $subPos)) {
+			while ($fragment = $this->getNextFragment($subSelector, $subLength, $subPos))
 				if (($index = strpos($fragment, self::TOKEN_SUBFIELD_OPEN)) !== false) {
-					$prefix = substr($fragment, 0, $index);
+					$subfields = $this->parse($fragment);
 
-					$fields = array_merge($fields, array_map(function($subfield) use ($prefix) {
-						return sprintf('%s.%s', $prefix, $subfield);
-					}, $this->parse($fragment)->getSubfields()));
+					foreach ($subfields as $k => $v)
+						$fields[$k] = $v;
 				} else
-					$fields[] = $fragment;
-			}
+					$fields[$fragment] = true;
 
-			return new FieldSelector($key, $fields);
+			return [$key => $fields];
 		}
 
+		/**
+		 * @param      $string
+		 * @param null $length
+		 * @param null $pos
+		 *
+		 * @return string
+		 * @throws \Exception
+		 */
 		protected function getNextFragment($string, $length = null, &$pos = null) {
 			$state = self::STATE_DATA;
 			$buffer = '';

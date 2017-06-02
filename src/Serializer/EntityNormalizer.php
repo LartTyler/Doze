@@ -4,6 +4,7 @@
 	use DaybreakStudios\Doze\Entity\EntityInterface;
 	use DaybreakStudios\Doze\Utility\CollectionUtil;
 	use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+	use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 	/**
 	 * Allows normalization of objects that implement EntityInterface.
@@ -19,6 +20,13 @@
 	 */
 	class EntityNormalizer extends ObjectNormalizer {
 		const CONTEXT_FIELDS = 'doze.entity_fields';
+
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function getAttributes($object, $format = null, array $context) {
+			return $this->extractAttributes($object, $format, $context);
+		}
 
 		/**
 		 * {@inheritdoc}
@@ -43,21 +51,19 @@
 		protected function getAttributeValue($object, $attribute, $format = null, array $context = []) {
 			$value = parent::getAttributeValue($object, $attribute, $format, $context);
 
-			if ($value instanceof EntityInterface)
+			if ($value instanceof EntityInterface && !$this->isExplicitlyAllowed($attribute, $context))
 				return $value->getId();
-			else if (CollectionUtil::isIterable($value)) {
-				$coll = [];
-
-				foreach ($value as $k => $v) {
-					if ($v instanceof EntityInterface)
-						$v = $v->getId();
-
-					$coll[$k] = $v;
-				}
-
-				$value = $coll;
-			}
 
 			return $value;
+		}
+
+		protected function isExplicitlyAllowed($attribute, array $context) {
+			if (isset($context[AbstractNormalizer::ATTRIBUTES][$attribute]))
+				return true;
+
+			if (isset($context[AbstractNormalizer::ATTRIBUTES]) && is_array($context[AbstractNormalizer::ATTRIBUTES]))
+				return in_array($attribute, $context[AbstractNormalizer::ATTRIBUTES], true);
+
+			return false;
 		}
 	}
