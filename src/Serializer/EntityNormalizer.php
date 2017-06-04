@@ -19,8 +19,6 @@
 	 * @see     EntityInterface
 	 */
 	class EntityNormalizer extends ObjectNormalizer {
-		const CONTEXT_FIELDS = 'doze.entity_fields';
-
 		/**
 		 * {@inheritdoc}
 		 */
