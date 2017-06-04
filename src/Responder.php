@@ -4,7 +4,6 @@
 	use DaybreakStudios\Doze\Errors\AccessDeniedError;
 	use DaybreakStudios\Doze\Errors\ApiErrorInterface;
 	use DaybreakStudios\Doze\Errors\NotFoundError;
-	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Serializer\SerializerInterface;
 
