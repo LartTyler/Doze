@@ -4,9 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f5c7b7793ee76aa8ef1457347e424644",
-    "content-hash": "f33afd02a6636ccb249c7565b7d7d785",
+    "hash": "b3e43c4d27e359b39227216c38b90a7f",
+    "content-hash": "f5cfd22f747b82f54dd22a19599b3804",
     "packages": [
+        {
+            "name": "dbstudios/doctrine-entities",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LartTyler/doctrine-entities.git",
+                "reference": "ef4a3d28fbcc4652db089297643fc83cc32045ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LartTyler/doctrine-entities/zipball/ef4a3d28fbcc4652db089297643fc83cc32045ca",
+                "reference": "ef4a3d28fbcc4652db089297643fc83cc32045ca",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DaybreakStudios\\Utility\\DoctrineEntities\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Tyler Lartonoix",
+                    "email": "tyler@gravitationalmarketing.com"
+                }
+            ],
+            "time": "2017-06-26 19:31:21"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.4.0",
