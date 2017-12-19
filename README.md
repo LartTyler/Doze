@@ -151,3 +151,6 @@ examples).
 With the extra normalizer added, any objects that implement `EntityInterface` will have ONLY their ID serialized,
 instead of the entire object, and any child objects. This can be overwritten by using explicitly selecting the
 entity (and, optionally, and of it's fields) using the [Field Selector Notation](#field-selector-notation).
+
+# Paged Collections
+Coming soon.
