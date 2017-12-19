@@ -4,7 +4,7 @@
 	/**
 	 * Contains methods that are useful for working with Doctrine's collections library.
 	 *
-	 * @package AppBundle\Utility
+	 * @package DaybreakStudios\Doze\Utility
 	 */
 	final class CollectionUtil {
 		/**
