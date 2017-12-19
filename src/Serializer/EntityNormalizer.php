@@ -2,9 +2,14 @@
 	namespace DaybreakStudios\Doze\Serializer;
 
 	use DaybreakStudios\Doze\Entity\EntityInterface;
-	use DaybreakStudios\Doze\Utility\CollectionUtil;
-	use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+	use Doctrine\Common\Collections\Collection;
+	use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+	use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
+	use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
+	use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 	use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+	use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+	use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 	/**
 	 * Allows normalization of objects that implement EntityInterface.
