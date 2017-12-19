@@ -1,7 +1,7 @@
 <?php
 	namespace DaybreakStudios\Doze\Serializer;
 
-	use DaybreakStudios\Doze\Entity\EntityInterface;
+	use DaybreakStudios\Utility\DoctrineEntities\EntityInterface;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\Common\Collections\Criteria;
 	use Doctrine\Common\Collections\Selectable;
