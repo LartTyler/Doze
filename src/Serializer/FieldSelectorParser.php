@@ -107,16 +107,22 @@
 
 			$length = $length ?: strlen($string);
 			$pos = $pos ?: 0;
+			$depth = 0;
 
 			while ($pos < $length) {
 				$char = $string[$pos++];
 
-				if ($char === self::TOKEN_FIELD_SEPARATOR && $state === self::STATE_DATA)
+				if ($char === self::TOKEN_FIELD_SEPARATOR && $depth === 0 && $state === self::STATE_DATA)
 					return $buffer;
-				else if ($char === self::TOKEN_SUBFIELD_OPEN)
+				else if ($char === self::TOKEN_SUBFIELD_OPEN) {
 					$state = self::STATE_SUBFIELD;
-				else if ($char === self::TOKEN_SUBFIELD_CLOSE)
+
+					++$depth;
+				} else if ($char === self::TOKEN_SUBFIELD_CLOSE) {
 					$state = self::STATE_DATA;
+
+					--$depth;
+				}
 
 				$buffer .= $char;
 			}
