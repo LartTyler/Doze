@@ -4,3 +4,7 @@ composer.phar
 
 # IDE files
 /.idea/
+
+# Vagrant files
+/.vagrant
+/*-cloudimg-console.log
