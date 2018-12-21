@@ -1,7 +1,7 @@
 <?php
 	namespace DaybreakStudios\Doze\Errors;
 
-	class ApiError implements ApiErrorInterface {
+	class ApiError implements ApiErrorInterface, ContextAwareInterface {
 		/**
 		 * @var string
 		 */
@@ -18,16 +18,23 @@
 		protected $httpStatus;
 
 		/**
+		 * @var array
+		 */
+		protected $context;
+
+		/**
 		 * ApiError constructor.
 		 *
 		 * @param string   $code
 		 * @param string   $message
 		 * @param int|null $httpStatus
+		 * @param array    $context
 		 */
-		public function __construct($code, $message, $httpStatus = null) {
+		public function __construct($code, $message, $httpStatus = null, array $context = []) {
 			$this->code = $code;
 			$this->message = $message;
 			$this->httpStatus = $httpStatus;
+			$this->context = $context;
 		}
 
 		/**
@@ -38,6 +45,13 @@
 		}
 
 		/**
+		 * @return int|null
+		 */
+		public function getHttpStatus() {
+			return $this->httpStatus;
+		}
+
+		/**
 		 * @return string
 		 */
 		public function getMessage() {
@@ -45,9 +59,9 @@
 		}
 
 		/**
-		 * @return int|null
+		 * @return array
 		 */
-		public function getHttpStatus() {
-			return $this->httpStatus;
+		public function getContext() {
+			return $this->context;
 		}
 	}
