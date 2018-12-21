@@ -3,6 +3,7 @@
 
 	use DaybreakStudios\Doze\Errors\AccessDeniedError;
 	use DaybreakStudios\Doze\Errors\ApiErrorInterface;
+	use DaybreakStudios\Doze\Errors\ContextAwareInterface;
 	use DaybreakStudios\Doze\Errors\NotFoundError;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Serializer\SerializerInterface;
@@ -54,12 +55,17 @@
 			if ($status === null)
 				$status = $error->getHttpStatus() ?: Response::HTTP_BAD_REQUEST;
 
-			return $this->createResponse($format, [
+			$data = [
 				'error' => [
 					'code' => $error->getCode(),
 					'message' => $error->getMessage(),
 				],
-			], $status, $headers, $context);
+			];
+
+			if ($error instanceof ContextAwareInterface)
+				$data['error']['context'] = $error->getContext();
+
+			return $this->createResponse($format, $data, $status, $headers, $context);
 		}
 
 		/**
